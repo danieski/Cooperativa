@@ -1,5 +1,5 @@
-<<<<<<< HEAD
+
 change 1
 chenge 2
-=======
->>>>>>> parent of f544653 (Update test.txt)
+
+
