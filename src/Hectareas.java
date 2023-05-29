@@ -46,9 +46,4 @@ public class Hectareas {
         this.hectareas = hectareas;
     }
 
-    public void agregarHectareas(){
-
-        listaHectareas.add(new Hectareas(producto.getListaProductos().get(0),5));
-
-    }
 }
