@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Federacion {
+public class Federacion {/*
     private String nombre;
     ArrayList<Federacion> listaFederados=new ArrayList<>();
     ArrayList<ProductorPeque> miembrosFederacion;
@@ -11,13 +11,7 @@ public class Federacion {
         this.nombre = nombre;
         this.miembrosFederacion = miembrosFederacion;
     }
-    public Federacion() {
 
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
@@ -59,5 +53,5 @@ public class Federacion {
                 System.out.println(miembrosFederacion.getNombre());
             }
         }
-    }
+    }*/
 }

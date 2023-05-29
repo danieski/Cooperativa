@@ -8,7 +8,9 @@ public class Main {
 
         listaProductos.add(new Producto("Platano"));
         listaProductos.add(new Producto("Manzana"));
-        listaProductores.add(agregarProductor());
+        listaProductos.add(new Producto("Coco"));
+        agregarProductor();
+        agregarProductor();
         mostrarProductores(listaProductores);
 
     }
@@ -44,20 +46,31 @@ public class Main {
         } while (decision == 1);
         return hectareas;
     }
-    public static Productor agregarProductor(){
+    public static void agregarProductor(){
+        double totalHectareas=0;
         Scanner scanner = new Scanner(System.in);
         System.out.println("Nombre del productor:");
         String nombre = scanner.nextLine();
-        return new Productor(nombre,agregarHectareas());
+        ArrayList<Hectareas> hectareasProductor = agregarHectareas();
+        for (Hectareas areasProductor:hectareasProductor
+             ) {
+            totalHectareas+=areasProductor.getArea();
+        }
+        if(totalHectareas>5){
+            listaProductores.add(new ProductorGrande(nombre,hectareasProductor));
+        }else {
+            listaProductores.add(new ProductorPeque(nombre,hectareasProductor));
+        }
+
     }
     public static void mostrarProductores(ArrayList<Productor> listaProductores) {
         int id = 0;
         // Recorremos la lista de productores
         for (Productor productor : listaProductores) {
-            System.out.println(productor.getNombre());
+            System.out.println(productor.getNombre() + " " +productor.getClass());
             for (Hectareas productoHectareas: productor.getHectareas()
             ) {
-                System.out.println(productoHectareas.getProducto().getNombre() + " " + productoHectareas.getHectareas());
+                System.out.println(productoHectareas.getProducto().getNombre() + " " + productoHectareas.getArea());
             }
         }
     }

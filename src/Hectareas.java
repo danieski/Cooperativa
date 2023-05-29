@@ -6,21 +6,15 @@ public class Hectareas {
     private ProductorPeque productorPeque;
 
     private Producto producto;
-    private double hectareas;
+    private double area;
 
-    public Hectareas(Producto producto, double hectareas) {
+    public Hectareas(Producto producto, double area) {
 
         this.producto = producto;
-        this.hectareas = hectareas;
+        this.area = area;
     }
 
-    public ArrayList<Hectareas> getListaHectareas() {
-        return listaHectareas;
-    }
 
-    public void setListaHectareas(ArrayList<Hectareas> listaHectareas) {
-        this.listaHectareas = listaHectareas;
-    }
 
     public ProductorPeque getProductorPeque() {
         return productorPeque;
@@ -38,12 +32,8 @@ public class Hectareas {
         this.producto = producto;
     }
 
-    public double getHectareas() {
-        return hectareas;
-    }
-
-    public void setHectareas(double hectareas) {
-        this.hectareas = hectareas;
+    public double getArea() {
+        return area;
     }
 
 }
