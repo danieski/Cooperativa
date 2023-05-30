@@ -7,9 +7,9 @@ public class Main {
     private static ArrayList<Federacion> listaFederados = new ArrayList<Federacion>();
     public static void main(String[] args) {
 
-        listaProductos.add(new Producto("Platano"));
-        listaProductos.add(new Producto("Manzana"));
-        listaProductos.add(new Producto("Coco"));
+        listaProductos.add(new Producto("Platano",1,6.2));
+        listaProductos.add(new Producto("Manzana",1.2,3.6));
+        listaProductos.add(new Producto("Coco",0.4,4.4));
         ArrayList<Hectareas> hectareasDani = new ArrayList<>();
         hectareasDani.add(new Hectareas(listaProductos.get(0),2));
         listaProductores.add(new ProductorPeque("Dani",hectareasDani));
@@ -18,28 +18,40 @@ public class Main {
         listaProductores.add(new ProductorPeque("Jose",hectareasJose));
         ArrayList<Hectareas> hectareasPepe = new ArrayList<>();
         hectareasPepe.add(new Hectareas(listaProductos.get(1),3));
+        hectareasPepe.add(new Hectareas(listaProductos.get(0),3));
         listaProductores.add(new ProductorPeque("Pepe",hectareasPepe));
         ArrayList<Hectareas> hectareasJuan = new ArrayList<>();
         hectareasJuan.add(new Hectareas(listaProductos.get(2),11));
         listaProductores.add(new ProductorGrande("Juan",hectareasJuan));
         //agregarProductor();
-        //agregarProductor();
+        mostrarProductos();
+        agregarProductor();
+        mostrarProductos();
+        agregarProductor();
+        mostrarProductos();
         mostrarProductores(listaProductores);
         listaFederados.add(crearFederacion());
         mostrarFederados();
 
     }
+
     public static void mostrarProductos(){
         int idProducto =0;
         for (Producto nombresProductos: listaProductos
         ) {
-            System.out.println(idProducto + " " +nombresProductos.getNombre());
+            System.out.println(idProducto + " " +nombresProductos.getNombre() + " " + nombresProductos.getCosechaTotal() + " he");
             idProducto++;
         }
     }
     public static Hectareas crearHectarea(Producto producto,double hectareas){
         //Creamos el objeto con los parametros pasados a la funcion
         return new Hectareas(producto,hectareas);
+    }
+    public static void calcularCosechaTotal(int idProducto, double hectareasAumentadas){
+        Producto productoSelecciondao = listaProductos.get(idProducto);
+        double cosechaTotalActual=productoSelecciondao.getCosechaTotal();
+        double cosechaNueva=cosechaTotalActual+hectareasAumentadas*productoSelecciondao.getRendimientoHectarea();
+        productoSelecciondao.setCosechaTotal(cosechaNueva);
     }
     public static ArrayList<Hectareas> agregarHectareas() {
         Scanner scanner = new Scanner(System.in);
@@ -53,7 +65,7 @@ public class Main {
             int idProducto = scanner.nextInt();
             System.out.println("Cantidad en hectareas:");
             double cantidadHectareas = scanner.nextDouble();
-
+            calcularCosechaTotal(idProducto,cantidadHectareas);
             hectareas.add(crearHectarea(listaProductos.get(idProducto), cantidadHectareas));
             System.out.println("Agregar otro producto? 1=Si 2=No");
             decision = scanner.nextInt();
@@ -61,6 +73,7 @@ public class Main {
         } while (decision == 1);
         return hectareas;
     }
+
     public static void agregarProductor(){
         double totalHectareas=0;
         Scanner scanner = new Scanner(System.in);
@@ -89,13 +102,15 @@ public class Main {
             }
         }
     }
-    public static double calcularHectareasTotales(ArrayList<Productor> miembrosFederacion){
+    public static double calcularHectareasTotales(ArrayList<Productor> miembrosFederacion,int idProducto){
         double hectareasTotales = 0;
         for (Productor productorMiembro: miembrosFederacion
         ) {
             for (Hectareas hectareasProductor:productorMiembro.getHectareas()
             ) {
-                hectareasTotales+=hectareasProductor.getArea();
+                if(hectareasProductor.getProducto().equals(listaProductos.get(idProducto))) {
+                    hectareasTotales += hectareasProductor.getArea();
+                }
             }
         }
         return hectareasTotales;
@@ -127,8 +142,13 @@ public class Main {
                 fin=false;
             }
         }while (fin);
-        hectareasTotales = calcularHectareasTotales(miembrosFederacion);
-        return new Federacion("Federacion "+ listaProductos.get(idProducto).getNombre(),miembrosFederacion,hectareasTotales);
+        hectareasTotales = calcularHectareasTotales(miembrosFederacion,idProducto);
+        if (hectareasTotales>5){
+            System.out.println("Superado el limite de hectareas para federacion");
+            return null;
+        }else {
+            return new Federacion("Federacion " + listaProductos.get(idProducto).getNombre(), miembrosFederacion, hectareasTotales);
+        }
     }
     public static void mostrarFederados(){
         for ( Federacion nombreFederacion:listaFederados
