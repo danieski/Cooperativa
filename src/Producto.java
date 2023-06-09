@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Producto {
     private String nombre;
@@ -40,6 +41,13 @@ public class Producto {
         return nombre;
     }
 
-
+    public static void mostrarProductos(){
+        int idProducto =0;
+        for (Producto nombresProductos: Main.getListaProductos()
+        ) {
+            System.out.println(idProducto + " " +nombresProductos.getNombre() + " " + nombresProductos.getCosechaTotal() + " he");
+            idProducto++;
+        }
+    }
 
 }
