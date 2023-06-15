@@ -3,6 +3,8 @@ public class Pedidos {
     private int distancia;
     private int KgContratados;
     private boolean esExpress;
+    private static int pedidoID=0;
+    private static int auxID=0;
 
     public Pedidos(Producto producto, int distancia, int kgContratados, boolean esExpress) {
         this.producto = producto;
@@ -84,7 +86,9 @@ public class Pedidos {
         return precioTotal;
 
     }
-
+    public static double calcularPrecioProducto(Pedidos pedidos){
+        return pedidos.producto.getPrecioKg()*pedidos.getKgContratados();
+    }
     public static double calcularProductoPedido(Pedidos pedido,Cliente cliente){
         int kgProducto=pedido.getKgContratados();
         Producto productoPedido = pedido.getProducto();

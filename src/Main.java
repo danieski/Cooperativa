@@ -34,14 +34,7 @@ public class Main {
         ArrayList<Pedidos> pedidoPinkman = new ArrayList<>();
         pedidoPinkman.add(new Pedidos(listaProductos.get(1),40,50,false));
         listaClientes.add(new Consumidor("Jessie Pinkman",pedidoPinkman));
-/*
-        System.out.println(calcularLogisticaPedido(pedidosGus.get(0)));
-        System.out.println(calcularProductoPedido(pedidosGus.get(0),listaClientes.get(0)));
 
-        System.out.println(calcularLogisticaPedido(pedidoPinkman.get(0)));
-        System.out.println(calcularProductoPedido(pedidoPinkman.get(0),listaClientes.get(1)));*/
-        //listaFederados.add(Federacion.crearFederacion());
-        //Federacion.mostrarFederados();
         menuPrincipal();
 
     }
@@ -109,14 +102,28 @@ public class Main {
         }while(fin);
     }
     public static void mostrarPedidos(){
+        int idPedido=0;
         System.out.println("Lista Pedidos:");
-        for (Pedidos mostrarPedidos:listaPedidos
+        for (Cliente mostrarCliente:listaClientes
              ) {
-            System.out.println("Product: " + mostrarPedidos.getProducto());
+            System.out.println("-------Client Details-------");
+            System.out.println("Client name:" + mostrarCliente.getNombre());
+
+        for (Pedidos mostrarPedidos:mostrarCliente.getPedidosCliente()
+             ) {
+            System.out.println("-------Delivery Details-------");
+            System.out.println("ID: " +idPedido);
+            idPedido++;
+            System.out.println("Product: " + mostrarPedidos.getProducto().getNombre());
             System.out.println("Kg: " + mostrarPedidos.getKgContratados());
             System.out.println("Distance: " + mostrarPedidos.getDistancia());
             System.out.println("Espress: " + mostrarPedidos.isEsExpress());
-            Pedidos.calcularLogisticaPedido(mostrarPedidos);
+
+            System.out.println("-------Costs-------");
+            System.out.println("Transport costs: " + Pedidos.calcularLogisticaPedido(mostrarPedidos) + "€");
+            System.out.println("Product sell price: " + Pedidos.calcularPrecioProducto(mostrarPedidos) + "€");
+            System.out.println("");
+            }
         }
     }
     public static void crearPedido(){
@@ -147,6 +154,7 @@ public class Main {
         }
 
         nuevoPedido.add(new Pedidos(listaProductos.get(productId),distance,kg,express));
+        listaPedidos.addAll(nuevoPedido);
         listaClientes.add(new Distribuidor(nameCostumer,nuevoPedido));
     }
 
