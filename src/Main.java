@@ -2,8 +2,13 @@ import com.sun.source.tree.SwitchTree;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.*;
+
 
 public class Main {
+
+
+
     private static ArrayList<Producto> listaProductos = new ArrayList<>();
     private static ArrayList<Productor> listaProductores = new ArrayList<Productor>();
     private static ArrayList<Federacion> listaFederados = new ArrayList<Federacion>();
@@ -11,6 +16,9 @@ public class Main {
     private static ArrayList<Pedidos> listaPedidos = new ArrayList<>();
 
     public static void main(String[] args) {
+        Calendar c = Calendar.getInstance();
+
+        System.out.println(c.getTime());
 
         listaProductos.add(new Producto("Aceite",1,6.2,true,0.5));
         listaProductos.add(new Producto("Manzana",1.2,3.6,true,1));
@@ -32,9 +40,10 @@ public class Main {
 
 
         ArrayList<Pedidos> pedidoPinkman = new ArrayList<>();
-        pedidoPinkman.add(new Pedidos(listaProductos.get(1),40,50,false));
+        pedidoPinkman.add(new Pedidos(listaProductos.get(1),40,50,false,1));
         listaClientes.add(new Consumidor("Jessie Pinkman",pedidoPinkman));
-
+        getMonthPurchase(1);
+        getProductList1();
         menuPrincipal();
 
     }
@@ -111,6 +120,7 @@ public class Main {
 
         for (Pedidos mostrarPedidos:mostrarCliente.getPedidosCliente()
              ) {
+            System.out.println("Date: " + mostrarPedidos.getMonth());
             System.out.println("-------Delivery Details-------");
             System.out.println("ID: " +idPedido);
             idPedido++;
@@ -153,7 +163,7 @@ public class Main {
             System.out.println("Invalid option: ");
         }
 
-        nuevoPedido.add(new Pedidos(listaProductos.get(productId),distance,kg,express));
+        nuevoPedido.add(new Pedidos(listaProductos.get(productId),distance,kg,express,Calendar.MONTH));
         listaPedidos.addAll(nuevoPedido);
         listaClientes.add(new Distribuidor(nameCostumer,nuevoPedido));
     }
@@ -164,7 +174,40 @@ public class Main {
         double cosechaNueva=cosechaTotalActual+hectareasAumentadas*productoSelecciondao.getRendimientoHectarea();
         productoSelecciondao.setCosechaTotal(cosechaNueva);
     }
+    public static void getMonthPurchase(int month){
+        for (Cliente custumerName:listaClientes
+             ) {
+            for (Pedidos purchaseCustumer: custumerName.getPedidosCliente()
+                 ) {
+                if (purchaseCustumer.getMonth() == month){
+                    System.out.println("Custumer name from that month: " + custumerName.getNombre());
+                    System.out.println("Es pedecedero: " + purchaseCustumer.getProducto().isEsPerecedero());
 
+                }
+            }
+        }
+        System.out.println();
+    }
+    public static void getProductList1 (){
+        for (Producto producto:listaProductos
+             ) {
+            //Read product list
+            System.out.println(producto.getNombre());
+
+            for (Productor productor:listaProductores
+                 ) {
+               //Read Productores list
+                //if productor has the producto we are looking
+                for (Hectareas productor1:productor.getHectareas()
+                     ) {
+                    if (productor1.getProducto().equals(producto)){
+                        System.out.println(productor.getNombre() + productor.getClass());
+                    }
+                }
+
+            }
+        }
+    }
 
 
 }

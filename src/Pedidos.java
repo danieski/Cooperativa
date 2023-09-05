@@ -5,12 +5,14 @@ public class Pedidos {
     private boolean esExpress;
     private static int pedidoID=0;
     private static int auxID=0;
+    private int month = 0;
 
-    public Pedidos(Producto producto, int distancia, int kgContratados, boolean esExpress) {
+    public Pedidos(Producto producto, int distancia, int kgContratados, boolean esExpressn, int month) {
         this.producto = producto;
         this.distancia = distancia;
         this.KgContratados = kgContratados;
         this.esExpress = esExpress;
+        this.month = month;
     }
 
     public Producto getProducto() {
@@ -29,7 +31,11 @@ public class Pedidos {
         return esExpress;
     }
 
-    public static int calcularKmPequeLogisticas(Producto productoPedido,int distanciaPedido){
+    public int getMonth() {
+        return month;
+    }
+
+    public static int calcularKmPequeLogisticas(Producto productoPedido, int distanciaPedido){
         int nuemroGrandesLogisticas;
         if(productoPedido.isEsPerecedero()){
             nuemroGrandesLogisticas=distanciaPedido%100;
