@@ -1,5 +1,6 @@
 import com.sun.source.tree.SwitchTree;
 
+import java.awt.image.ImagingOpException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.*;
@@ -41,9 +42,20 @@ public class Main {
 
         ArrayList<Pedidos> pedidoPinkman = new ArrayList<>();
         pedidoPinkman.add(new Pedidos(listaProductos.get(1),40,50,false,1));
+        //Filling list of clients for testing
+        ArrayList<Pedidos> pedidoWW = new ArrayList<>();
+        pedidoWW.add(new Pedidos(listaProductos.get(0),340,3000,false,4));
+        ArrayList<Pedidos> pedidoMIA = new ArrayList<>();
+        pedidoMIA.add(new Pedidos(listaProductos.get(2),10,100,false,6));
+        pedidoMIA.add(new Pedidos(listaProductos.get(0),10,100,false,6));
         listaClientes.add(new Consumidor("Jessie Pinkman",pedidoPinkman));
-        getMonthPurchase(1);
-        getProductList1();
+        listaClientes.add(new Distribuidor("Walter White", pedidoWW));
+        listaClientes.add(new Consumidor("Mia Kalifa", pedidoMIA));
+        listaClientes.add(new Consumidor("Franco", pedidoWW));
+        listaClientes.add(new Consumidor("Ezeka", pedidoMIA));
+        //getMonthPurchase(1);
+        //getProductList1();
+
         menuPrincipal();
 
     }
@@ -77,6 +89,7 @@ public class Main {
             System.out.println("7. Crear Pedido");
             System.out.println("8. Mostrar Pedidos");
             System.out.println("9. Salir");
+            System.out.println("10. TestButton");
             System.out.println("Selecciona Opcion: ");
             Scanner scanner = new Scanner(System.in);
             int option = scanner.nextInt();
@@ -105,6 +118,13 @@ public class Main {
                     mostrarPedidos();
                     break;
                 case 9:
+                    fin=false;
+                    break;
+                case 10:
+                    //intervaloDeTiempo(0,3);
+                    //topCustumer();
+                    pedidosListFix();
+                    topProducts();
                     fin=false;
                     break;
             }
@@ -206,6 +226,82 @@ public class Main {
                 }
 
             }
+        }
+    }
+    public static void intervaloDeTiempo(int initial,int finish) {
+        double calculo = 0;
+        for (Cliente cliente : listaClientes
+        ) {
+
+
+        for (Pedidos pedido : cliente.getPedidosCliente()
+          ) {
+              if (pedido.getMonth() >= initial && pedido.getMonth() <= finish) {
+                    calculo += Pedidos.calcularLogisticaPedido(pedido);
+
+                }
+            }
+        }
+        System.out.println(calculo);
+    }
+    public static void topCustumer() throws IndexOutOfBoundsException {
+        double spent = 0;
+        ArrayList<clientSpent> listClientSpent = new ArrayList<>();
+
+
+        for (Cliente c:listaClientes
+             ) {
+            //Entramos dentro de la lista clientes
+            //Revisamos la lista
+
+            for (Pedidos p : c.getPedidosCliente()
+                 ) {
+
+                spent += Pedidos.calcularLogisticaPedido(p);
+
+            }
+            listClientSpent.add(new clientSpent(c,spent));
+
+        }
+            Collections.sort(listClientSpent);
+        for (int i = 0; i<=4;i++){
+            System.out.println(listClientSpent.get(i).getClient().getNombre());
+            System.out.println(listClientSpent.get(i).getSpent());
+        }
+
+    }
+    public static void pedidosListFix(){
+        for (Cliente c:listaClientes
+             ) {
+            listaPedidos.addAll(c.getPedidosCliente());
+        }
+    }
+    public static void topProducts() throws IndexOutOfBoundsException {
+        ArrayList<ProductSold> psList=new ArrayList<>();
+        double counter =0;
+        for (Producto producto:listaProductos
+             ) {
+
+
+                for (Pedidos p:listaPedidos
+                     ) {
+                    if(p.getProducto().equals(producto)){
+                        counter+=p.getKgContratados();
+                    }
+                }
+                psList.add(new ProductSold(producto,counter));
+                counter=0;
+
+        }
+    //Show the list
+        Collections.sort(psList);
+        try {
+            for (int i = 0; i <= 4; i++) {
+                System.out.println(psList.get(i).getProduct().getNombre());
+                System.out.println(psList.get(i).getKgSold());
+            }
+        }catch (IndexOutOfBoundsException e){
+            System.out.println("Thats it");
         }
     }
 
